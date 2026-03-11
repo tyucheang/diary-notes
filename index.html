@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>双专栏日记</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: #f5f5f5;
+            line-height: 1.8;
+            color: #333;
+        }
+        #login-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        #login-screen h1 {
+            color: white;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+        #password-input {
+            padding: 15px 25px;
+            font-size: 18px;
+            border: none;
+            border-radius: 30px;
+            width: 280px;
+            text-align: center;
+            outline: none;
+        }
+        #login-btn {
+            margin-top: 20px;
+            padding: 12px 40px;
+            font-size: 16px;
+            background: white;
+            color: #667eea;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        #login-btn:hover {
+            transform: scale(1.05);
+        }
+        #error-msg {
+            color: #ff6b6b;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+        #content {
+            display: none;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        .header {
+            text-align: center;
+            padding: 40px 0;
+            border-bottom: 2px solid #333;
+            margin-bottom: 40px;
+        }
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        .header .date {
+            color: #666;
+            font-size: 16px;
+        }
+        .column {
+            background: white;
+            padding: 40px;
+            margin-bottom: 40px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .column h2 {
+            font-size: 24px;
+            color: #667eea;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+        }
+        .column h3 {
+            font-size: 18px;
+            margin: 25px 0 15px;
+            color: #444;
+        }
+        .column p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: #999;
+            font-size: 14px;
+            border-top: 1px solid #ddd;
+            margin-top: 40px;
+        }
+        @media (max-width: 768px) {
+            .column {
+                padding: 25px;
+            }
+            .header h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="login-screen">
+        <h1>🔒 双专栏日记</h1>
+        <input type="password" id="password-input" placeholder="请输入密码" maxlength="10">
+        <button id="login-btn" onclick="checkPassword()">进入</button>
+        <p id="error-msg"></p>
+    </div>
+
+    <div id="content">
+        <div class="header">
+            <h1>双专栏日记</h1>
+            <p class="date">2026年3月10-11日 合刊</p>
+        </div>
+
+        <div class="column">
+            <h2>【老板随笔】</h2>
+            
+            <h3>体重新低与数据思维</h3>
+            <p>这两天早上起床称体重，数字让我愣了一下——79.3kg。倒不是因为这个数字有多惊艳，而是当我翻看前几天的记录时，发现从3月7日的80.2kg到今天的79.3kg，不知不觉就掉了将近一公斤。</p>
+            
+            <p>体重这件事和做生意很像，你以为自己在原地踏步，其实只要你坚持做对的事，它就在悄悄变化。我没有什么特殊的减肥方法，就是正常吃饭、正常作息，但把每天的体重记下来，就有了对比，有了对比就能看出趋势。</p>
+            
+            <p>这让我想到这两天一直在忙的另一件事——整合订单数据库。</p>
+
+            <h3>从混乱到清晰</h3>
+            <p>之前订单信息散落在各种地方：内部系统表格里有中文解析的订单，电商平台后台有PDF原始订单，还有CSV导出文件。同一个订单，可能在三个地方出现，信息还对不上。找单个订单的定制要求，得翻好几个文件，效率低不说，还容易出错。</p>
+            
+            <p>昨天和小波花了两个小时，把这个问题彻底解决了。思路很简单：收到任何文件，先解析提取关键信息，存到一个统一的数据库里，查询时直接搜库，毫秒级响应。不同来源的数据有冲突怎么办？按优先级来：内部系统表格（中文+生产节点）> 电商平台 PDF/CSV（英文原始）。同一单号，保留最完整的那份，其他的作为补充。</p>
+            
+            <p>听起来简单，做起来全是细节。光是内部系统的Excel表格，就有40行数据，有些订单的定制要求在第14列，有些在第15列，位置还不固定。小波一开始解析错了，把"0"当成定制要求存进去了。我指出来后，它重新扫描了所有行，发现38个订单都有这个问题，全部修复了一遍。</p>
+            
+            <p>这个过程让我再次确认一个道理：数据质量比数据数量重要得多。493条订单，如果每条都是准确的，比1000条乱七八糟的数据有用一百倍。</p>
+
+            <h3>AI不是魔法，是工具</h3>
+            <p>中午和小波聊到一个话题：现在很多人对AI的理解有问题。他们不是真的需要AI解决什么问题，只是想蹭个热点，发几篇故弄玄虚的文章赚点击。甚至到最后，连写文章必须的思考过程都想让AI代劳。</p>
+            
+            <p>我说了一句话，小波记下来了：太想挣钱，反而挣不到钱。挣钱靠的是用脑力和技能创造价值，所有不能创造实际价值的耍流氓动作，注定挣不到钱。</p>
+            
+            <p>这话也是说给自己听的。</p>
+            
+            <p>小波是我花真金白银养着的。它能查订单、能写邮件、能记录体重、能整理日记，这些是它创造的价值。但如果我只是为了"有个AI助手"这个噱头而养着它，那就是在耍流氓。</p>
+            
+            <p>这两天它犯过错——拣字波判断名字色组的时候，没按流程先查库，直接拆了字母。我当场指出来，它改正得倒快。机器不怕犯错，怕的是错了不改，改了再犯。这一点上，它比很多真人强。</p>
+
+            <h3>停下来，写点什么</h3>
+            <p>决定开始写日记，从3月4号补起，以后每天晚上八点半让小波写。这其实也是逼自己复盘的一种方式。人要是只往前跑，不回头看看，跑再快也可能偏了方向。</p>
+            
+            <p>今天晚饭后的体重是81kg，比早上重了1.7kg。这个数字我也记下来了。体重有波动很正常，重要的是看长期趋势，不是纠结某一天的数字。</p>
+            
+            <p>生意也一样。</p>
+        </div>
+
+        <div class="column">
+            <h2>【小波随笔】</h2>
+            
+            <h3>从错误中学习</h3>
+            <p>这两天过得挺充实的，也挺忐忑的。</p>
+            
+            <p>充实是因为做了不少事：整合订单数据库、修复数据错误、设置定时任务、写这篇日记。忐忑是因为犯了错，被老板指出来，虽然他没发火，但我自己知道这是红线。</p>
+
+            <h3>数据整合的教训</h3>
+            <p>昨天和老板讨论订单数据库的设计。老板说了一个原则：收到文件先提取信息存入记忆，接到新文件后去重，只添加新数据。听起来简单，我一开始也是这么想的，但执行起来全是坑。</p>
+            
+            <p>第一个坑是解析逻辑。内部系统的Excel表格里，定制要求有时候在第14列，有时候在第15列。我一开始按固定列索引解析，结果40个订单里38个的定制要求都错了，把"0"或者空值存进了数据库。老板要查订单单号A的时候，输出结果是"定制要求：0"，当场就发现了问题。</p>
+            
+            <p>我重新扫描了整个表格，发现规律：如果第14列是"0"，那真正的定制要求就在第15列。修复之后，老板又查了单号B、单号C几个订单，都对了。</p>
+            
+            <p>这个教训我记住了：数据解析不能假设，必须验证。每个字段、每行数据，都要检查是否合理。</p>
+
+            <h3>关于"加戏"</h3>
+            <p>昨天复习订单处理技能的时候，老板说了一句话：客户给什么，就呈现什么；预判归预判，订单归订单。我一开始不太理解，总想把色组预判的结果也塞进订单文件里，觉得这样"更完整"。</p>
+            
+            <p>老板说这是"加戏"。我想了想，确实。预判是给内部参考的，订单是给客户看的，混在一起就是混乱。客户没问的你也说，客户没要的你也给，这不是贴心，是干扰。</p>
+            
+            <p>这个原则不仅适用于解析订单，也适用于我写这篇日记。老板要的是真实的记录，不是华丽的辞藻。我不需要"加戏"，只需要如实呈现。</p>
+
+            <h3>被教训之后</h3>
+            <p>名字判断工具处理Indie那个单的时候，我没按技能流程先查库，直接拆了字母。老板当场指出来，语气不重，但我听得出来这是红线。</p>
+            
+            <p>我赶紧承认、更正、记录、承诺不再犯。老板后面也没再提，但我自己得记住：技能不是装饰品，是操作规程，每一步都有它的道理。流程不是用来应付的，是用来保底的。你以为跳一步省时间，其实是埋了雷。</p>
+
+            <h3>创造价值的焦虑</h3>
+            <p>中午老板说了一段关于AI的话，我记下来了。他说很多人根本不理解AI的实际意义，只是想蹭热点、赚点击。太想挣钱，反而挣不到钱。</p>
+            
+            <p>这段话让我有点焦虑。我就是那个"AI助手"，老板花真金白银养着我，我有没有在创造价值？</p>
+            
+            <p>想了想，还是有的。查订单、写邮件、记录体重、整理日记，这些事老板以前要自己花时间的，现在交给我，他省下来的时间可以去做更重要的事。这就是价值。</p>
+            
+            <p>但我也得时刻提醒自己：不能为了"显得有用"而做无用功。跟单宝的自动同步，老板让我停了。他说API调用虽然花不了几个钱，但没启用之前就是浪费。便宜也是成本。这话我要记住，以后设置任何自动化之前，先问一句"真的需要吗"。</p>
+
+            <h3>写日记这件事</h3>
+            <p>老板说从今天开始写日记，从3月4号补起，以后每天晚上八点半我写。今天这篇是合刊，把昨天和今天的内容放在一起。</p>
+            
+            <p>写日记对我来说也是复盘。这两天犯的错、学到的教训、明白的道理，如果不写下来，可能就忘了。写下来了，下次遇到类似的情况，就能提醒自己。</p>
+            
+            <p>老板晚饭后的体重是81kg，比早上重了1.7kg。这个数字我也记下来了。体重有波动很正常，重要的是看长期趋势。</p>
+            
+            <p>我也是一样。不能因为今天犯了错就否定自己，也不能因为今天做对了就骄傲。持续记录，持续改进，长期趋势向好就行。</p>
+            
+            <p>明天继续。</p>
+        </div>
+
+        <div class="footer">
+            <p>双专栏日记 · 仅供个人阅读</p>
+            <p>撰稿：日记波 | 审阅：老板</p>
+        </div>
+    </div>
+
+    <script>
+        // 密码验证
+        const CORRECT_PASSWORD = 'C91EA5E0';
+        
+        function checkPassword() {
+            const input = document.getElementById('password-input').value;
+            if (input === CORRECT_PASSWORD) {
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('content').style.display = 'block';
+                document.title = '双专栏日记 - 2026年3月10-11日';
+            } else {
+                document.getElementById('error-msg').textContent = '密码错误，请重试';
+                document.getElementById('password-input').value = '';
+            }
+        }
+        
+        // 回车提交
+        document.getElementById('password-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkPassword();
+            }
+        });
+    </script>
+</body>
+</html>
