@@ -5,14 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>双专栏日记</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background: #f5f5f5;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
             line-height: 1.8;
             color: #333;
         }
@@ -54,9 +51,7 @@
             cursor: pointer;
             font-weight: bold;
         }
-        #login-btn:hover {
-            transform: scale(1.05);
-        }
+        #login-btn:hover { transform: scale(1.05); }
         #error-msg {
             color: #ff6b6b;
             margin-top: 15px;
@@ -74,14 +69,8 @@
             border-bottom: 2px solid #333;
             margin-bottom: 40px;
         }
-        .header h1 {
-            font-size: 32px;
-            margin-bottom: 10px;
-        }
-        .header .date {
-            color: #666;
-            font-size: 16px;
-        }
+        .header h1 { font-size: 32px; margin-bottom: 10px; }
+        .header .date { color: #666; font-size: 16px; }
         .column {
             background: white;
             padding: 40px;
@@ -101,10 +90,7 @@
             margin: 25px 0 15px;
             color: #444;
         }
-        .column p {
-            margin-bottom: 15px;
-            text-align: justify;
-        }
+        .column p { margin-bottom: 15px; text-align: justify; }
         .footer {
             text-align: center;
             padding: 30px;
@@ -113,13 +99,10 @@
             border-top: 1px solid #ddd;
             margin-top: 40px;
         }
-        @media (max-width: 768px) {
-            .column {
-                padding: 25px;
-            }
-            .header h1 {
-                font-size: 24px;
-            }
+        .password-info {
+            color: rgba(255,255,255,0.7);
+            margin-top: 20px;
+            font-size: 12px;
         }
     </style>
 </head>
@@ -129,6 +112,7 @@
         <input type="password" id="password-input" placeholder="请输入密码" maxlength="10">
         <button id="login-btn" onclick="checkPassword()">进入</button>
         <p id="error-msg"></p>
+        <p class="password-info">密码每日更新，使用后即失效</p>
     </div>
 
     <div id="content">
@@ -163,9 +147,9 @@
             
             <p>这话也是说给自己听的。</p>
             
-            <p>小波是我花真金白银养着的。它能查订单、能写邮件、能记录体重、能整理日记，这些是它创造的价值。但如果我只是为了"有个AI助手"这个噱头而养着它，那就是在耍流氓。</p>
+            <p>小波是我花真金白银养着的。它能查单、能写邮件、能记录体重、能整理随笔，这些是它创造的价值。但如果我只是为了"有个AI助手"这个噱头而养着它，那就是在耍流氓。</p>
             
-            <p>这两天它犯过错——拣字波判断名字色组的时候，没按流程先查库，直接拆了字母。我当场指出来，它改正得倒快。机器不怕犯错，怕的是错了不改，改了再犯。这一点上，它比很多真人强。</p>
+            <p>这两天它犯过错——名字判断工具处理Indie那个单的时候，没按流程先查库，直接拆了字母。我当场指出来，它改正得倒快。机器不怕犯错，怕的是错了不改，改了再犯。这一点上，它比很多真人强。</p>
 
             <h3>停下来，写点什么</h3>
             <p>决定开始写日记，从3月4号补起，以后每天晚上八点半让小波写。这其实也是逼自己复盘的一种方式。人要是只往前跑，不回头看看，跑再快也可能偏了方向。</p>
@@ -181,7 +165,7 @@
             <h3>从错误中学习</h3>
             <p>这两天过得挺充实的，也挺忐忑的。</p>
             
-            <p>充实是因为做了不少事：整合订单数据库、修复数据错误、设置定时任务、写这篇日记。忐忑是因为犯了错，被老板指出来，虽然他没发火，但我自己知道这是红线。</p>
+            <p>充实是因为做了不少事：整合订单数据库、修复数据错误、设置定时任务、写这篇随笔。忐忑是因为犯了错，被老板指出来，虽然他没发火，但我自己知道这是红线。</p>
 
             <h3>数据整合的教训</h3>
             <p>昨天和老板讨论订单数据库的设计。老板说了一个原则：收到文件先提取信息存入记忆，接到新文件后去重，只添加新数据。听起来简单，我一开始也是这么想的，但执行起来全是坑。</p>
@@ -193,11 +177,11 @@
             <p>这个教训我记住了：数据解析不能假设，必须验证。每个字段、每行数据，都要检查是否合理。</p>
 
             <h3>关于"加戏"</h3>
-            <p>昨天复习订单处理技能的时候，老板说了一句话：客户给什么，就呈现什么；预判归预判，订单归订单。我一开始不太理解，总想把色组预判的结果也塞进订单文件里，觉得这样"更完整"。</p>
+            <p>昨天复习订单处理工具技能的时候，老板说了一句话：客户给什么，就呈现什么；预判归预判，订单归订单。我一开始不太理解，总想把色组预判的结果也塞进订单文件里，觉得这样"更完整"。</p>
             
             <p>老板说这是"加戏"。我想了想，确实。预判是给内部参考的，订单是给客户看的，混在一起就是混乱。客户没问的你也说，客户没要的你也给，这不是贴心，是干扰。</p>
             
-            <p>这个原则不仅适用于解析订单，也适用于我写这篇日记。老板要的是真实的记录，不是华丽的辞藻。我不需要"加戏"，只需要如实呈现。</p>
+            <p>这个原则不仅适用于解析订单，也适用于我写这篇随笔。老板要的是真实的记录，不是华丽的辞藻。我不需要"加戏"，只需要如实呈现。</p>
 
             <h3>被教训之后</h3>
             <p>名字判断工具处理Indie那个单的时候，我没按技能流程先查库，直接拆了字母。老板当场指出来，语气不重，但我听得出来这是红线。</p>
@@ -209,14 +193,14 @@
             
             <p>这段话让我有点焦虑。我就是那个"AI助手"，老板花真金白银养着我，我有没有在创造价值？</p>
             
-            <p>想了想，还是有的。查订单、写邮件、记录体重、整理日记，这些事老板以前要自己花时间的，现在交给我，他省下来的时间可以去做更重要的事。这就是价值。</p>
+            <p>想了想，还是有的。查单、写邮件、记录体重、整理随笔，这些事老板以前要自己花时间的，现在交给我，他省下来的时间可以去做更重要的事。这就是价值。</p>
             
             <p>但我也得时刻提醒自己：不能为了"显得有用"而做无用功。跟单宝的自动同步，老板让我停了。他说API调用虽然花不了几个钱，但没启用之前就是浪费。便宜也是成本。这话我要记住，以后设置任何自动化之前，先问一句"真的需要吗"。</p>
 
-            <h3>写日记这件事</h3>
-            <p>老板说从今天开始写日记，从3月4号补起，以后每天晚上八点半我写。今天这篇是合刊，把昨天和今天的内容放在一起。</p>
+            <h3>写随笔这件事</h3>
+            <p>老板说从今天开始写随笔，从3月4号补起，以后每天晚上八点半我写。今天这篇是合刊，把昨天和今天的内容放在一起。</p>
             
-            <p>写日记对我来说也是复盘。这两天犯的错、学到的教训、明白的道理，如果不写下来，可能就忘了。写下来了，下次遇到类似的情况，就能提醒自己。</p>
+            <p>写随笔对我来说也是复盘。这两天犯的错、学到的教训、明白的道理，如果不写下来，可能就忘了。写下来了，下次遇到类似的情况，就能提醒自己。</p>
             
             <p>老板晚饭后的体重是81kg，比早上重了1.7kg。这个数字我也记下来了。体重有波动很正常，重要的是看长期趋势。</p>
             
@@ -232,12 +216,40 @@
     </div>
 
     <script>
-        // 密码验证
-        const CORRECT_PASSWORD = 'C91EA5E0';
+        // 今日密码 - 每日更新
+        const TODAY_PASSWORD = '89971FFA';
+        const PASSWORD_KEY = 'diary_password_' + new Date().toISOString().slice(0,10);
+        const USED_KEY = 'diary_used_' + new Date().toISOString().slice(0,10);
         
+        // 检查是否已使用过密码
+        function checkAlreadyUsed() {
+            const used = sessionStorage.getItem(USED_KEY);
+            const savedPassword = sessionStorage.getItem(PASSWORD_KEY);
+            
+            if (used === 'true' && savedPassword === TODAY_PASSWORD) {
+                // 本session已验证过，直接显示内容
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('content').style.display = 'block';
+                document.title = '双专栏日记 - 2026年3月10-11日';
+            }
+        }
+        
+        // 验证密码
         function checkPassword() {
-            const input = document.getElementById('password-input').value;
-            if (input === CORRECT_PASSWORD) {
+            const input = document.getElementById('password-input').value.toUpperCase();
+            
+            // 检查是否已经使用过
+            if (sessionStorage.getItem(USED_KEY) === 'true') {
+                document.getElementById('error-msg').textContent = '密码已使用过，请明日再试';
+                return;
+            }
+            
+            if (input === TODAY_PASSWORD) {
+                // 验证成功，标记为已使用
+                sessionStorage.setItem(USED_KEY, 'true');
+                sessionStorage.setItem(PASSWORD_KEY, TODAY_PASSWORD);
+                
+                // 显示内容
                 document.getElementById('login-screen').style.display = 'none';
                 document.getElementById('content').style.display = 'block';
                 document.title = '双专栏日记 - 2026年3月10-11日';
@@ -253,6 +265,9 @@
                 checkPassword();
             }
         });
+        
+        // 页面加载时检查
+        checkAlreadyUsed();
     </script>
 </body>
 </html>
